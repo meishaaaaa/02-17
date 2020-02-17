@@ -14,7 +14,7 @@ public class DishInfo {
     public DishInfo() {
     }
 
-    public DishInfo(String[] itemId, String[] itemName, int[] itemNum, double[] price, double[]halfPrice) {
+    public DishInfo(String[] itemId, String[] itemName, int[] itemNum, double[] price, double[] halfPrice) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemNum = itemNum;
@@ -23,52 +23,53 @@ public class DishInfo {
     }
 
     public void setItemId() {
-        List<Dish>list=DataProvider.getDishes();
-        String[]itemId=new String[list.size()];
+        List<Dish> list = DataProvider.getDishes();
+        String[] itemId = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             itemId[i] = list.get(i).getId();
         }
-        this.itemId=itemId;
+        this.itemId = itemId;
     }
 
     public void setItemName() {
-        List<Dish>list=DataProvider.getDishes();
-        String[]itemName=new String[list.size()];
+        List<Dish> list = DataProvider.getDishes();
+        String[] itemName = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             itemName[i] = list.get(i).getName();
         }
-        this.itemName=itemName;
+        this.itemName = itemName;
     }
 
     public void setItemNum(String[] dishArr, int[] dishNum) {
-        List<Dish>list=DataProvider.getDishes();
-        int[] itemNum=new int[list.size()];
-        for (int i = 0; i<list.size(); i++) {
-            for (int j = 0; j<dishArr.length;j++) {
-                if (list.get(i).getId().equals(dishArr[j])){
+        List<Dish> list = DataProvider.getDishes();
+        int[] itemNum = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < dishArr.length; j++) {
+                if (list.get(i).getId().equals(dishArr[j])) {
                     itemNum[i] = dishNum[j];
                     break;
+                } else {
+                    itemNum[i] = 0;
                 }
-                else{itemNum[i]=0;}
 
             }
         }
-        this.itemNum=itemNum;
+        this.itemNum = itemNum;
     }
 
     public void setPrice() {
-        List<Dish>list=DataProvider.getDishes();
-        double[]price=new double[list.size()];
+        List<Dish> list = DataProvider.getDishes();
+        double[] price = new double[list.size()];
         for (int i = 0; i < list.size(); i++) {
             price[i] = list.get(i).getPrice();
         }
-        this.price=price;
+        this.price = price;
     }
 
     public void setHalfPrice() {
-        List<Dish>list=DataProvider.getDishes();
-        List<String>list2=DataProvider.getHalfDishIds();
-        double[]price=new double[list.size()];
+        List<Dish> list = DataProvider.getDishes();
+        List<String> list2 = DataProvider.getHalfDishIds();
+        double[] price = new double[list.size()];
         for (int i = 0; i < list.size(); i++) {
             for (int j = 0; j < list2.size(); j++) {
                 if (list.get(i).getId().equals(list2.get(j))) {
@@ -79,7 +80,7 @@ public class DishInfo {
                 }
             }
         }
-        this.halfPrice=price;
+        this.halfPrice = price;
     }
 
     public String[] getItemId() {
@@ -103,16 +104,13 @@ public class DishInfo {
     }
 
 
-    public String halfDish(DishInfo dishInfo){
-        String halfDish=null;
-        if (dishInfo.getItemNum()[0]!=0 && dishInfo.getItemNum()[2]!=0){
-            halfDish = dishInfo.getItemName()[0]+"，"+dishInfo.getItemName()[2];
-        }
-        else if (dishInfo.getItemNum()[0]!=0){
+    public String halfDish(DishInfo dishInfo) {
+        String halfDish = null;
+        if (dishInfo.getItemNum()[0] != 0 && dishInfo.getItemNum()[2] != 0) {
+            halfDish = dishInfo.getItemName()[0] + "，" + dishInfo.getItemName()[2];
+        } else if (dishInfo.getItemNum()[0] != 0) {
             halfDish = dishInfo.getItemName()[0];
-        }
-
-        else if (dishInfo.getItemNum()[2]!=0){
+        } else if (dishInfo.getItemNum()[2] != 0) {
             halfDish = dishInfo.getItemName()[2];
         }
 
