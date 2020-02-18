@@ -13,7 +13,7 @@ public class Restaurant {
         two.setHalfPrice();
 
         FinalPrice print = new FinalPrice();
-        String bestCharge = print.summary(two);
+        String bestCharge = print.finalPrice(two);
 
         return bestCharge;
     }
