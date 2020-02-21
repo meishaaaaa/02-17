@@ -1,40 +1,45 @@
 package com.thoughtworks;
 
+import java.util.ArrayList;
+
 public class PromoHalfPrice implements Promo {
     @Override
-    public double count(DishInfo dishInfo) {
+    public double count(ArrayList<OrderDish> orderList) {
         double sum = 0;
-        for (int i = 0; i < dishInfo.getItemId().length; i++) {
-            sum += dishInfo.getItemNum()[i] * dishInfo.getHalfPrice()[i];
+        for (int i = 0; i < orderList.size(); i++) {
+            sum += orderList.get(i).getHalfPrice() * orderList.get(i).getItemNum();
         }
         return sum;
     }
 
+
     @Override
-    public String summary(DishInfo dishInfo) {
-        String summary = "============= 订餐明细 =============\n";
-        for (int i = 0; i < dishInfo.getItemName().length; i++) {
-            if (dishInfo.getItemNum()[i] != 0) {
-                int eachDishPrice = (int) (dishInfo.getPrice()[i] * dishInfo.getItemNum()[i]);
-                summary += String.format(dishInfo.getItemName()[i] + " x " + dishInfo.getItemNum()[i] + " = "
+    public String summary(ArrayList<OrderDish> orderList) {
+        StringBuilder summary = new StringBuilder("============= 订餐明细 =============\n");
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList.get(i).getItemNum() != 0) {
+                int eachDishPrice = (int) (orderList.get(i).getPrice() * orderList.get(i).getItemNum());
+                summary.append(orderList.get(i).getItemName() + " x " + orderList.get(i).getItemNum() + " = "
                         + eachDishPrice + "元\n");
             }
         }
 
-        OriginalPrice one = new OriginalPrice();
-        PromoHalfPrice two = new PromoHalfPrice();
+        OriginalPrice original = new OriginalPrice();
+        PromoHalfPrice half = new PromoHalfPrice();
 
-        int originalPrice = (int) one.count(dishInfo);
-        int halfPrice = (int) two.count(dishInfo);
+        int originalPrice = (int) original.count(orderList);
+        int halfPrice = (int) half.count(orderList);
 
         int saveMoney1 = originalPrice - halfPrice;
-        String halfDish = dishInfo.halfDish(dishInfo);
-        summary += "-----------------------------------\n"
-                + "使用优惠:\n"
-                + String.format("指定菜品半价(" + halfDish + ")，" + "省" + saveMoney1 + "元\n")
-                + "-----------------------------------\n"
-                + String.format("总计：%d元\n", halfPrice)
-                + "===================================";
-        return summary;
+        String halfDish = DishList.halfDishes(orderList);
+        summary.append("-----------------------------------\n")
+                .append("使用优惠:\n")
+                .append("指定菜品半价(" + halfDish + ")，" + "省" + saveMoney1 + "元\n")
+                .append("-----------------------------------\n")
+                .append("总计：" + halfPrice + "元\n")
+                .append("===================================");
+
+        String s1 = summary.toString();
+        return s1;
     }
 }

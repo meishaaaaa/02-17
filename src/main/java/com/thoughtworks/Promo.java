@@ -1,10 +1,11 @@
 package com.thoughtworks;
 
+import java.util.ArrayList;
+
 public interface Promo {
 
-    public abstract double count(DishInfo dishInfo);
+    double count(ArrayList<OrderDish> orderList);
 
-    public abstract String summary(DishInfo dishInfo);
-
+    String summary(ArrayList<OrderDish> orderList);
 
 }

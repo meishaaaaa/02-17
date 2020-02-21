@@ -1,11 +1,13 @@
 package com.thoughtworks;
 
+import java.util.ArrayList;
+
 public class PromoMinusSix implements Promo {
     @Override
-    public double count(DishInfo dishInfo) {
+    public double count(ArrayList<OrderDish> orderList) {
         double sum = 0;
-        for (int i = 0; i < dishInfo.getItemId().length; i++) {
-            sum += dishInfo.getItemNum()[i] * dishInfo.getPrice()[i];
+        for (int i = 0; i < orderList.size(); i++) {
+            sum += orderList.get(i).getPrice() * orderList.get(i).getItemNum();
         }
         if (sum >= 30) {
             sum -= 6;
@@ -14,26 +16,28 @@ public class PromoMinusSix implements Promo {
     }
 
     @Override
-    public String summary(DishInfo dishInfo) {
-        String summary = "============= 订餐明细 =============\n";
-        for (int i = 0; i < dishInfo.getItemName().length; i++) {
-            if (dishInfo.getItemNum()[i] != 0) {
-                int eachDishPrice = (int) (dishInfo.getPrice()[i] * dishInfo.getItemNum()[i]);
-                summary += String.format(dishInfo.getItemName()[i] + " x " + dishInfo.getItemNum()[i] + " = "
+    public String summary(ArrayList<OrderDish> orderList) {
+        StringBuilder summary = new StringBuilder("============= 订餐明细 =============\n");
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList.get(i).getItemNum() != 0) {
+                int eachDishPrice = (int) (orderList.get(i).getPrice() * orderList.get(i).getItemNum());
+                summary.append(orderList.get(i).getItemName() + " x " + orderList.get(i).getItemNum() + " = "
                         + eachDishPrice + "元\n");
             }
         }
 
-        PromoMinusSix three = new PromoMinusSix();
-        int minusPrice = (int) three.count(dishInfo);
-
-        summary += "-----------------------------------\n"
-                + "使用优惠:\n"
-                + String.format("满30减6元，省6元\n")
-                + "-----------------------------------\n"
-                + String.format("总计：%d元\n", minusPrice)
-                + "===================================";
-
-        return summary;
+        PromoMinusSix minusSix = new PromoMinusSix();
+        int minusPrice = (int) minusSix.count(orderList);
+        summary .append("-----------------------------------\n")
+                .append("使用优惠:\n")
+                .append("满30减6元，省6元\n")
+                .append("-----------------------------------\n")
+                .append("总计：" + minusPrice + "元\n")
+                .append("===================================");
+        String s1 = summary.toString();
+        return s1;
     }
 }
+
+
+

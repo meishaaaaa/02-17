@@ -1,32 +1,35 @@
 package com.thoughtworks;
 
+import java.util.ArrayList;
+
 public class OriginalPrice implements Promo {
+
     @Override
-    public double count(DishInfo dishInfo) {
+    public double count(ArrayList<OrderDish> orderList) {
         double sum = 0;
-        for (int i = 0; i < dishInfo.getItemId().length; i++) {
-            sum += dishInfo.getItemNum()[i] * dishInfo.getPrice()[i];
+        for (int i = 0; i < orderList.size(); i++) {
+            sum += orderList.get(i).getPrice() * orderList.get(i).getItemNum();
         }
         return sum;
     }
 
     @Override
-    public String summary(DishInfo dishInfo) {
-        String summary = "============= 订餐明细 =============\n";
-        for (int i = 0; i < dishInfo.getItemName().length; i++) {
-            if (dishInfo.getItemNum()[i] != 0) {
-                int eachDishPrice = (int) (dishInfo.getPrice()[i] * dishInfo.getItemNum()[i]);
-                summary += String.format(dishInfo.getItemName()[i] + " x " + dishInfo.getItemNum()[i] + " = "
+    public String summary(ArrayList<OrderDish> orderList) {
+        StringBuilder summary = new StringBuilder("============= 订餐明细 =============\n");
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList.get(i).getItemNum() != 0) {
+                int eachDishPrice = (int) (orderList.get(i).getPrice() * orderList.get(i).getItemNum());
+                summary.append(orderList.get(i).getItemName() + " x " + orderList.get(i).getItemNum() + " = "
                         + eachDishPrice + "元\n");
             }
         }
-        OriginalPrice one = new OriginalPrice();
-        int originalPrice = (int) one.count(dishInfo);
-
-        summary += "-----------------------------------\n"
-                + String.format("总计：" + originalPrice + "元\n")
-                + "===================================";
-        return summary;
+        OriginalPrice original = new OriginalPrice();
+        int originalPrice = (int) original.count(orderList);
+        summary.append("-----------------------------------\n")
+                .append("总计：" + originalPrice + "元\n")
+                .append("===================================");
+        String s1 = summary.toString();
+        return s1;
     }
 }
 

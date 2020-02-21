@@ -1,24 +1,26 @@
 package com.thoughtworks;
 
+import java.util.ArrayList;
+
 public class FinalPrice {
     //比较三个promotion方案哪个最小
-    public String finalPrice(DishInfo dishInfo) {
-        OriginalPrice one = new OriginalPrice();
-        PromoHalfPrice two = new PromoHalfPrice();
-        PromoMinusSix three = new PromoMinusSix();
+    public String finalPrice(ArrayList<OrderDish> orderList) {
+        OriginalPrice original = new OriginalPrice();
+        PromoHalfPrice half = new PromoHalfPrice();
+        PromoMinusSix minus = new PromoMinusSix();
 
-        int originalPrice = (int) one.count(dishInfo);
-        int halfPrice = (int) two.count(dishInfo);
-        int minusPrice = (int) three.count(dishInfo);
+        int originalPrice = (int) original.count(orderList);
+        int halfPrice = (int) half.count(orderList);
+        int minusPrice = (int) minus.count(orderList);
 
-        String finalPrice;
+        String finalPrice=null;
 
         if (originalPrice == halfPrice && originalPrice == minusPrice) {
-            finalPrice=one.summary(dishInfo);
+            finalPrice=original.summary(orderList);
         } else if (halfPrice <= minusPrice) {
-            finalPrice=two.summary(dishInfo);
+            finalPrice=half.summary(orderList);
         } else {
-           finalPrice=three.summary(dishInfo);
+           finalPrice=minus.summary(orderList);
         }
         return finalPrice;
     }
